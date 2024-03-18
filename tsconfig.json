@@ -19,18 +19,8 @@
         "src/**/*.tsx",
         "src/**/*.vue",
         "vite.config.**",
-        "vitest.config.ts",
-        "vitest.setup.ts",
-        ".eslintrc.cjs",
         "electron/**/*.ts",
-        "electron/**/*.d.ts", 
         "src/main.ts",
-        "vitest.setup.ts", 
-        "vite.config__.js",
-        "vite.config.electron.ts",
-        "./.dot/**/*.vue",
-        "./dot/**/*.vue",
-        "src/routes/*.ts"
       ],
     "exclude": [
     "node_modules"
