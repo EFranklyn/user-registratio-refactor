@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+      "target": "ES2018",
+      "module": "ESNext",
+      "outDir": "./dist",
+      "strict": true,
+      "jsx": "preserve",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "vite.config.**",
+        "electron/**/*.ts",
+        "src/main.ts",
+      ],
+    "exclude": [
+    "node_modules"
+    ]
+}
