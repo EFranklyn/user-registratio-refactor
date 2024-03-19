@@ -1,14 +1,11 @@
 <script setup>
-import { provide } from 'vue';
-const theme = 'dark';
-provide('theme', theme);
+  import { provide } from 'vue';
+  
+  const theme = 'dark';
+  provide('theme', theme);
 </script>
 
 <template>
-  <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-  </div>
   <router-view />
 </template>
 

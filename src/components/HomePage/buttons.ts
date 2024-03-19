@@ -10,7 +10,7 @@ export const buttons: ButtonSchema[] = [
     name: 'Register User',
     label: 'Register User',
     color:'blue',
-    to:'About'
+    to:'Form'
   },
   {
     name: 'About',

@@ -3,15 +3,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 import App from '../App.vue';
 import HomePage from '../components/HomePage/HomePage.vue';
 import Teste from '../components/Teste.vue';
+import FormUser from '../components/FormUser/FormUser.vue';
 
 export interface RouteSchema {
     name: string;
     isDefault: boolean;
     path: string;
     component: any;
-    nameButton: String,
-  }
-  
+  }  
  
   export const routes: RouteSchema[] = [
     {
@@ -19,15 +18,20 @@ export interface RouteSchema {
       isDefault: true,
       path: '/',
       component:  HomePage,
-      nameButton: 'Register User',
     },
     {
       name: 'About',
       isDefault: false,
       path: '/about',
       component: Teste,
-      nameButton: 'teste'
     },
+    {
+      name: 'Form',
+      isDefault: false,
+      path: '/create-user',
+      component: FormUser,
+
+    }
   ];
 
 

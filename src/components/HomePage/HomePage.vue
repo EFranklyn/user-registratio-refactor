@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Welcome</h1>
         <div class="button-container">
         <ButtonMenu v-for="(button, index) in buttons" 
             :key="index" 
@@ -17,7 +16,6 @@
     import { ButtonMenu } from './styles.ts';
     import { useRouter } from "vue-router";
     const routerManager = useRouter();
-    console.log(routerManager.getRoutes())
     const onRedirect = (name)=> {
         routerManager.push({ name });
     };
