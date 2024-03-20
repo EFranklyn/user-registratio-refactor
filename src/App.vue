@@ -1,8 +1,5 @@
-<script setup>
-  import { provide } from 'vue';
-  
-  const theme = 'dark';
-  provide('theme', theme);
+<script lang="ts" setup>
+import { provide } from 'vue';
 </script>
 
 <template>

@@ -59,6 +59,38 @@ const closeForm = () => {
   routerManager.back()      
 };
 </script>
+
+<template>
+<Loading  v-if="loading"/>
+<div class="form-container" 
+  id="formUser" v-else>
+  <h2>User</h2>
+  <form @submit.prevent="handleSubmit">
+    <div class="form-group">
+      <label class="label" for="nome">Name:</label>
+      <input class="imput" id="nome" v-model="formData.nome" />
+      <p class="validation-message" v-if="showValidationMessage.nome">Please fill in the name.</p>
+    </div>
+    <div class="form-group">
+      <label class="label" for="lastName">Last Name:</label>
+      <input class="imput" type="text" id="lastName" v-model="formData.lastName" />
+      <p class="validation-message" v-if="showValidationMessage.lastName">Please fill in the last name.</p>
+    </div>
+    <div class="form-group">
+      <label class="label" for="email">Email:</label>
+      <input class="imput" type="email" id="email" v-model="formData.email" />
+      <p class="validation-message" v-if="showValidationMessage.email">Please fill in the email.</p>
+    </div>
+    <div class="form-group-actions">
+      <button class="button-submit" :disabled="loading" type="submit">
+        {{ loading ? 'Enviando...' : 'Enviar' }}
+      </button >
+      <button class="close-button" @click="closeForm">Close</button>
+    </div>
+  </form>
+</div>
+</template>
+
 <style lang="scss" scoped>
 .form-group {
   display: flex;
@@ -127,35 +159,5 @@ const closeForm = () => {
   margin: 0;    
 }
 </style>
-<template>
-<Loading  v-if="loading"/>
-<div class="form-container" 
-  id="formUser" v-else>
-  <h2>User</h2>
-  <form @submit.prevent="handleSubmit">
-    <div class="form-group">
-      <label class="label" for="nome">Name:</label>
-      <input class="imput" id="nome" v-model="formData.nome" />
-      <p class="validation-message" v-if="showValidationMessage.nome">Please fill in the name.</p>
-    </div>
-    <div class="form-group">
-      <label class="label" for="lastName">Last Name:</label>
-      <input class="imput" type="text" id="lastName" v-model="formData.lastName" />
-      <p class="validation-message" v-if="showValidationMessage.lastName">Please fill in the last name.</p>
-    </div>
-    <div class="form-group">
-      <label class="label" for="email">Email:</label>
-      <input class="imput" type="email" id="email" v-model="formData.email" />
-      <p class="validation-message" v-if="showValidationMessage.email">Please fill in the email.</p>
-    </div>
-    <div class="form-group-actions">
-      <button class="button-submit" :disabled="loading" type="submit">
-        {{ loading ? 'Enviando...' : 'Enviar' }}
-      </button >
-      <button class="close-button" @click="closeForm">Close</button>
-    </div>
-  </form>
-</div>
-</template>
 
   

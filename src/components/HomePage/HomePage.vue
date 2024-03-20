@@ -1,29 +1,50 @@
-<template>
-    <div>
-        <div class="button-container">
-        <ButtonMenu v-for="(button, index) in buttons" 
-            :key="index" 
-            :color="button.color"        
-            :onClick="() => onRedirect(button.to)"
-        >   {{ button.label }}
-        </ButtonMenu>
-        </div>
-    </div>
-</template>
-  
-<script setup>
-    import { buttons } from './buttons.ts';
-    import { ButtonMenu } from './styles.ts';
-    import { useRouter } from "vue-router";
-    const routerManager = useRouter();
-    const onRedirect = (name)=> {
-        routerManager.push({ name });
-    };
+<script lang="ts" setup>
+import { useRouter } from "vue-router";
+const routerManager = useRouter();
+
+interface ButtonSchema {
+  name: string;
+  label: String,
+  color: String
+  to:String
+}
+
+const buttons: ButtonSchema[] = [
+  {
+    name: 'Register User',
+    label: 'Register User',
+    color:'red',
+    to:'Form'
+  },
+  {
+    name: 'About',
+    label: 'List Users',
+    color:'red',
+    to:'About'
+  },
+];
+const onRedirect = (name): void=> {
+    routerManager.push({ name });
+};
 </script>
 
-<style scoped>
-    .button-container {
-    display: flex;
-    flex-wrap: wrap;
-    }
+<template>
+    <button  class="button-menu" v-for="(button, index) in buttons" 
+        :style="{ backgroundColor: button.color }"
+        :key="index"        
+        :onClick="() => onRedirect(button.to)"
+    >   
+    {{ button.label }}
+    </button>
+</template>
+
+<style lang="scss" scoped>
+.button-menu {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
 </style>
