@@ -1,51 +1,58 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { z } from 'zod';
 import { useRouter } from "vue-router";
 import Loading from '../Loading.vue';
+
 console.log('start component user')
 
-const routerManager = useRouter();  
+const routerManager = useRouter();
+
+interface Message {
+  name: string;
+  lastName: string;
+  email: string;
+};
+
+interface FormData {
+  name: string,
+  lastName: string,
+  email: string,
+};
 
 const schema = z.object({
-  lastName: z.string().regex(/^[^\d\W_]+$/).min(1),
+  lastName: z.string().min(1, 'Please fill in the Last Name.').regex(/^[A-Za-z][A-Za-z\s]*$/, "Only letters are allowed"),
   email: z.string().email(),
-  nome: z.string().regex(/^[A-Za-z]+$/i, "Only letters are allowed").min(1, 'Please fill in the name.')
+  name: z.string().min(1, 'Please fill in the name.').regex(/^[A-Za-z][A-Za-z\s]*$/, "Only letters are allowed")
 });
 
-const formData = ref({
-  nome: '',
+const formData = ref<FormData>({
+  name: '',
   lastName: '',
   email: '',
 });
 
-const showValidationMessage = ref({
-  nome: false,
-  lastName: false,
-  email: false,
-  global: false,
+const errorsDisplay = reactive<Message>({
+  name: '',
+  lastName: '',
+  email: ''
 });
 
 let loading = ref(false);
 
 const handleSubmit = async (): Promise<void> => {
-  schema.safeParse(formData)
-  console.log(schema.safeParse('test'), '>>>>')
-  // console.log(schema.parse(formData.value), '<<<<')
-
-  showValidationMessage.value = {
-    nome: !formData.value.nome,
-    lastName: !formData.value.lastName,
-    email: !formData.value.email,
-    global: false,
-  };
-
-  if (showValidationMessage.value.nome || showValidationMessage.value.lastName || showValidationMessage.value.email) {
-    showValidationMessage.value.global = true;
-    return;
-  }
   try {
-    const validatedData = schema.parse(formData.value);
+    const validatedData = schema.safeParse(formData.value);
+    errorsDisplay.name = ''
+    errorsDisplay.lastName = ''
+    errorsDisplay.email = ''
+    if (!validatedData.success) {
+      const errorsFormated = validatedData.error.format();
+      errorsDisplay.name = errorsFormated.name?._errors[0] || '';
+      errorsDisplay.lastName = errorsFormated.lastName?._errors[0] || '';
+      errorsDisplay.email = errorsFormated.email?._errors[0] || '';
+      return
+    };
     loading.value = true;
     console.log('Dados do formulário:', validatedData);
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -55,47 +62,46 @@ const handleSubmit = async (): Promise<void> => {
   }
 };
 
-const closeForm = () => {
-  routerManager.back()      
+const closeForm = (): void => {
+  routerManager.back();
 };
 </script>
 
 <template>
-<Loading  v-if="loading"/>
-<div class="form-container" 
-  id="formUser" v-else>
-  <h2>User</h2>
-  <form @submit.prevent="handleSubmit">
-    <div class="form-group">
-      <label class="label" for="nome">Name:</label>
-      <input class="imput" id="nome" v-model="formData.nome" />
-      <p class="validation-message" v-if="showValidationMessage.nome">Please fill in the name.</p>
-    </div>
-    <div class="form-group">
-      <label class="label" for="lastName">Last Name:</label>
-      <input class="imput" type="text" id="lastName" v-model="formData.lastName" />
-      <p class="validation-message" v-if="showValidationMessage.lastName">Please fill in the last name.</p>
-    </div>
-    <div class="form-group">
-      <label class="label" for="email">Email:</label>
-      <input class="imput" type="email" id="email" v-model="formData.email" />
-      <p class="validation-message" v-if="showValidationMessage.email">Please fill in the email.</p>
-    </div>
-    <div class="form-group-actions">
-      <button class="button-submit" :disabled="loading" type="submit">
-        {{ loading ? 'Enviando...' : 'Enviar' }}
-      </button >
-      <button class="close-button" @click="closeForm">Close</button>
-    </div>
-  </form>
-</div>
+  <Loading v-if="loading" />
+  <div class="form-container" id="formUser" v-else>
+    <h2>User</h2>
+    <form @submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label class="label" for="name">Name:</label>
+        <input class="imput" id="name" v-model="formData.name" />
+        <p class="validation-message" v-if="Boolean(errorsDisplay.name)">{{ errorsDisplay?.name }}</p>
+      </div>
+      <div class="form-group">
+        <label class="label" for="lastName">Last Name:</label>
+        <input class="imput" type="text" id="lastName" v-model="formData.lastName" />
+        <p class="validation-message" v-if="Boolean(errorsDisplay.lastName)">{{ errorsDisplay?.lastName }}</p>
+      </div>
+      <div class="form-group">
+        <label class="label" for="email">Email:</label>
+        <input class="imput" type="email" id="email" v-model="formData.email" />
+        <p class="validation-message" v-if="Boolean(errorsDisplay?.email)">{{ errorsDisplay?.email }}</p>
+      </div>
+      <div class="form-group-actions">
+        <button class="button-submit" :disabled="loading" type="submit">
+          {{ loading ? 'Enviando...' : 'Enviar' }}
+        </button>
+        <button class="close-button" @click="closeForm">Close</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .form-group {
   display: flex;
   flex-direction: column;
-  max-width: 90%;  
+  max-width: 90%;
   align-items: baseline;
   margin-bottom: 10px;
 
@@ -110,10 +116,11 @@ const closeForm = () => {
     font-size: 16px;
   }
 }
+
 .form-group-actions {
   display: flex;
   flex-direction: column;
-  max-width: 90%;  
+  max-width: 90%;
   align-items: center;
   margin-bottom: 10px;
   padding: 15px 20px 0 20px;
@@ -127,6 +134,7 @@ const closeForm = () => {
   color: #fff;
   border: none;
   cursor: pointer;
+
   &[disabled] {
     background-color: #ccc;
     cursor: not-allowed;
@@ -156,8 +164,6 @@ const closeForm = () => {
 .validation-message {
   font-size: 12px;
   color: #d32f2f;
-  margin: 0;    
+  margin: 0;
 }
 </style>
-
-  

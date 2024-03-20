@@ -4,47 +4,44 @@ const routerManager = useRouter();
 
 interface ButtonSchema {
   name: string;
-  label: String,
-  color: String
-  to:String
+  label: string,
+  color: string
+  to: string
 }
 
 const buttons: ButtonSchema[] = [
   {
     name: 'Register User',
     label: 'Register User',
-    color:'red',
-    to:'Form'
+    color: 'red',
+    to: 'Form'
   },
   {
     name: 'About',
     label: 'List Users',
-    color:'red',
-    to:'About'
+    color: 'red',
+    to: 'About'
   },
 ];
-const onRedirect = (name): void=> {
-    routerManager.push({ name });
+const onRedirect = (name: string): void => {
+  routerManager.push({ name });
 };
 </script>
 
 <template>
-    <button  class="button-menu" v-for="(button, index) in buttons" 
-        :style="{ backgroundColor: button.color }"
-        :key="index"        
-        :onClick="() => onRedirect(button.to)"
-    >   
+  <button class="button-menu" v-for="(button, index) in buttons" :style="{ backgroundColor: button.color }" :key="index"
+    :onClick="() => onRedirect(button.to)">
     {{ button.label }}
-    </button>
+  </button>
 </template>
 
 <style lang="scss" scoped>
 .button-menu {
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 </style>
