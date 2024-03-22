@@ -1,44 +1,30 @@
 
-import { createRouter, createWebHistory } from 'vue-router';
-import App from '../App.vue';
-import HomePage from '../components/HomePage/HomePage.vue';
-import Teste from '../components/Teste.vue';
-import FormUser from '../components/FormUser/FormUser.vue';
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
+import HomePage from '../views/HomePage/HomePage.vue';
+import Teste from '../views/Teste.vue';
+import FormUser from '../views/FormUser/FormUser.vue';
 
-export interface RouteSchema {
-    name: string;
-    isDefault: boolean;
-    path: string;
-    component: any;
-  }  
- 
-  export const routes: RouteSchema[] = [
-    {
-      name: 'Home',
-      isDefault: true,
-      path: '/',
-      component:  HomePage,
-    },
-    {
-      name: 'About',
-      isDefault: false,
-      path: '/about',
-      component: Teste,
-    },
-    {
-      name: 'Form',
-      isDefault: false,
-      path: '/create-user',
-      component: FormUser,
-
-    }
-  ];
+export const routes: RouteRecordRaw[] = [
+  {
+    name: 'Home',
+    path: '/',
+    component: HomePage,
+  },
+  {
+    name: 'About',
+    path: '/about',
+    component: Teste,
+  },
+  {
+    name: 'Form',
+    path: '/create-user',
+    component: FormUser,
+  }
+];
 
 
-  export const router = createRouter({
-    history: createWebHistory(),
-    routes,
-  });
-
-  export const RoutesConfig = routes
+export const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
 

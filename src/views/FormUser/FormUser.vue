@@ -2,19 +2,19 @@
 import { ref, reactive } from 'vue';
 import { z } from 'zod';
 import { useRouter } from "vue-router";
-import Loading from '../Loading.vue';
+import Loading from '../../components/Loading.vue';
 
 console.log('start component user')
 
-const routerManager = useRouter();
+const router = useRouter();
 
-interface Message {
+interface MessageError {
   name: string;
   lastName: string;
   email: string;
 };
 
-interface FormData {
+interface User {
   name: string,
   lastName: string,
   email: string,
@@ -26,13 +26,13 @@ const schema = z.object({
   name: z.string().min(1, 'Please fill in the name.').regex(/^[A-Za-z][A-Za-z\s]*$/, "Only letters are allowed")
 });
 
-const formData = ref<FormData>({
+const formData = ref<User>({
   name: '',
   lastName: '',
   email: '',
 });
 
-const errorsDisplay = reactive<Message>({
+const errorsDisplay = reactive<MessageError>({
   name: '',
   lastName: '',
   email: ''
@@ -55,7 +55,11 @@ const handleSubmit = async (): Promise<void> => {
     };
     loading.value = true;
     console.log('Dados do formulário:', validatedData);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    await new Promise((resolve, reject) => setTimeout(reject, 2000))
+      .then((resolve) => console.log('resolvida', resolve))
+      .catch((error) => console.log('rejeitada', error));
+
     loading.value = false;
   } catch (error) {
     console.error('Erro ao validar os dados:', error);
@@ -63,7 +67,7 @@ const handleSubmit = async (): Promise<void> => {
 };
 
 const closeForm = (): void => {
-  routerManager.back();
+  router.back();
 };
 </script>
 
@@ -75,12 +79,12 @@ const closeForm = (): void => {
       <div class="form-group">
         <label class="label" for="name">Name:</label>
         <input class="imput" id="name" v-model="formData.name" />
-        <p class="validation-message" v-if="Boolean(errorsDisplay.name)">{{ errorsDisplay?.name }}</p>
+        <p class="validation-message" v-if="Boolean(errorsDisplay?.name)">{{ errorsDisplay?.name }}</p>
       </div>
       <div class="form-group">
         <label class="label" for="lastName">Last Name:</label>
         <input class="imput" type="text" id="lastName" v-model="formData.lastName" />
-        <p class="validation-message" v-if="Boolean(errorsDisplay.lastName)">{{ errorsDisplay?.lastName }}</p>
+        <p class="validation-message" v-if="Boolean(errorsDisplay?.lastName)">{{ errorsDisplay?.lastName }}</p>
       </div>
       <div class="form-group">
         <label class="label" for="email">Email:</label>

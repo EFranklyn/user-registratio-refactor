@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-  import { useRouter } from "vue-router";
-  const routerManager = useRouter();
-  const close = ():void => {
-    routerManager.back()      
-  };
+import { useRouter } from "vue-router";
+const router = useRouter();
+const close = (): void => {
+  router.back();
+};
 </script>
 
 <template>
@@ -14,4 +14,3 @@
     </button>
   </div>
 </template>
-
