@@ -9,7 +9,6 @@ const onRedirect = (name: string): void => {
 
 <template>
   <button class="button-menu" @click="() => onRedirect('Form')"> Register User </button>
-  <button class="button-menu" @click="() => onRedirect('About')"> List Users </button>
 </template>
 
 <style lang="scss" scoped>

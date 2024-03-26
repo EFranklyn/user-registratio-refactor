@@ -1,24 +1,16 @@
 
-import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../views/HomePage/HomePage.vue';
-import Teste from '../views/Teste.vue';
-import FormUser from '../views/FormUser/FormUser.vue';
+import { type RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 
-export const routes: RouteRecordRaw[] = [
+const routes: RouteRecordRaw[] = [
   {
     name: 'Home',
     path: '/',
-    component: HomePage,
-  },
-  {
-    name: 'About',
-    path: '/about',
-    component: Teste,
+    component: import('../views/HomePage/HomePage.vue'),
   },
   {
     name: 'Form',
     path: '/create-user',
-    component: FormUser,
+    component: import('../views/UserForm/UserForm.vue'),
   }
 ];
 
